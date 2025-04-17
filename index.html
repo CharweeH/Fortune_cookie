@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Cookie Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5dc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 20px;
+        }
+        .cookie {
+            width: 200px;
+            height: 200px;
+            background-color: #e6bc6d;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        .cookie:before {
+            content: '';
+            position: absolute;
+            width: 180px;
+            height: 90px;
+            background-color: #d6ac5d;
+            border-radius: 90px 90px 0 0;
+            top: 55px;
+            left: 10px;
+        }
+        .cookie:hover {
+            transform: scale(1.05);
+        }
+        .cookie:active {
+            transform: scale(0.95);
+        }
+        .fortune-text {
+            min-height: 80px;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-style: italic;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        h1 {
+            color: #8b4513;
+            margin-bottom: 30px;
+        }
+        button {
+            background-color: #8b4513;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #6b3510;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fortune Cookie Generator</h1>
+        <div class="cookie" id="cookie"></div>
+        <div class="fortune-text" id="fortune-text">Click the cookie to reveal your fortune!</div>
+        <button id="new-fortune">Get New Fortune</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookie = document.getElementById('cookie');
+            const fortuneText = document.getElementById('fortune-text');
+            const newFortuneBtn = document.getElementById('new-fortune');
+
+            function getFortune() {
+                fetch('/get_fortune', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    fortuneText.textContent = data.fortune;
+                    cookie.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        cookie.style.transform = 'scale(1)';
+                    }, 300);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    fortuneText.textContent = 'Failed to crack open your fortune cookie. Try again!';
+                });
+            }
+
+            cookie.addEventListener('click', getFortune);
+            newFortuneBtn.addEventListener('click', getFortune);
+        });
+    </script>
+</body>
+</html>
