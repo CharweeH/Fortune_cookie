@@ -5,8 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fortune Cookie Generator</title>
     <style>
+        @font-face {
+            font-family: 'Munro';
+            src: url('munro.woff2') format('woff2'),
+                 url('munro.woff') format('woff'),
+                 url('munro.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Munro', 'Arial', sans-serif;
             background-color: #f5f5dc;
             display: flex;
             justify-content: center;
@@ -58,10 +68,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-family: 'Munro', monospace;
         }
         h1 {
             color: #8b4513;
             margin-bottom: 30px;
+            font-family: 'Munro', monospace;
         }
         button {
             background-color: #8b4513;
@@ -73,6 +85,7 @@
             border-radius: 5px;
             margin-top: 20px;
             transition: background-color 0.3s ease;
+            font-family: 'Munro', monospace;
         }
         button:hover {
             background-color: #6b3510;
